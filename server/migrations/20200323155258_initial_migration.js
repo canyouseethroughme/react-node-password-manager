@@ -1,27 +1,34 @@
-exports.up = function(knex) {
+exports.up = function (knex) {
   return knex.schema
-    .createTable("users", table => {
+    .createTable("users", (table) => {
       table.increments("id");
       table.string("username").unique();
-      table.string("password");
-      table.string("first_name");
-      table.string("last_name");
-      table.timestamp("created_at").defaultTo(knex.fn.now());
+      table.string("password").notNullable();
+      table.string("first_name").notNullable();
+      table.string("last_name").notNullable();
+      table.timestamp(true, true).defaultTo(knex.fn.now());
     })
-    .createTable("addresses", table => {
+    .createTable("passwords", (table) => {
       table.increments("id");
-      table.string("address_1");
-      table.string("address_2");
-      table.string("postal_code");
-      table.string("city");
-      table
-        .integer("user_id")
-        .unsigned()
-        .notNullable();
+      table.string("account").notNullable();
+      table.string("username").notNullable();
+      table.string("password").notNullable();
+      table.integer("user_id").unsigned().notNullable();
       table.foreign("user_id").references("users.id");
+      table.timestamp(true, true).defaultTo(knex.fn.now());
+    })
+    .createTable("tokens", (table) => {
+      table.string("token").notNullable().primary();
+      table.integer("ttl").notNullable();
+      table.integer("user_id").unsigned().notNullable();
+      table.foreign("user_id").references("users.id");
+      table.timestamp(true, true).defaultTo(knex.fn.now());
     });
 };
 
-exports.down = function(knex) {
-  return knex.schema.dropTableIfExists("addresses").dropTableIfExists("users");
+exports.down = function (knex) {
+  return knex.schema
+    .dropTableIfExists("tokens")
+    .dropTableIfExists("passwords")
+    .dropTableIfExists("users");
 };
