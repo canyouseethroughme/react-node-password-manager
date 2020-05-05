@@ -1,0 +1,30 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "migrate:make": "knex migrate:make",
+    "migrate:latest": "knex migrate:latest",
+    "migrate:rollback": "knex migrate:rollback",
+    "seed:make": "knex seed:make",
+    "seed:run": "knex seed:run",
+    "start-dev": "cross-env PORT=9090 npx nodemon app.js",
+    "start-prod": "cross-env PORT=80 node app.js"
+  },
+  "dependencies": {
+    "bcrypt": "^4.0.1",
+    "express": "^4.17.1",
+    "express-rate-limit": "^5.1.1",
+    "express-session": "^1.17.1",
+    "knex": "0.20.13",
+    "mysql2": "2.1.0",
+    "objection": "^2.1.3"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "cross-env": "^7.0.2"
+  }
+}
