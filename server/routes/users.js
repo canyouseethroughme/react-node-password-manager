@@ -1,18 +1,20 @@
 const router = require("express").Router();
-
+// bcrypt
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
-
+// JWT
 const jwt = require("jsonwebtoken");
-// users/login
+// Models
 const User = require("../models/User");
 const Token = require("../models/Token");
+// Authentification
+const { isAuthenticated } = require("../middleware/auth");
 
+// users/login
 router.post("/users/login", async (req, res) => {
   const { username, password } = req.body;
 
   if (username && password) {
-    // mysql select * from users where users.username = "admin"
     const users = await User.query()
       .select()
       .where({ username: username })
@@ -36,23 +38,20 @@ router.post("/users/login", async (req, res) => {
           .select()
           .where({ user_id: user.id })
           .limit(1);
-        // console.log(!previousToken[0]);
 
         if (!previousToken[0]) {
-          const newToken = await Token.query().insert({
+          await Token.query().insert({
             token,
             ttl: 360000,
             user_id: user.id,
           });
-          console.log("this is it", newToken.token);
         } else {
           await Token.query().where({ user_id: user.id }).del();
-          const newToken = await Token.query().insert({
+          await Token.query().insert({
             token,
             ttl: 360000,
             user_id: user.id,
           });
-          console.log("new token here", newToken.token);
         }
         return res.status(200).send({ username: user.username, token });
       }
@@ -61,7 +60,7 @@ router.post("/users/login", async (req, res) => {
     return res.status(404).send({ response: "missing username and password" });
   }
 });
-
+// #############################################################
 // users/register
 router.post("/users/register", (req, res) => {
   const { username, password, repeatedPassword } = req.body;
@@ -110,5 +109,9 @@ router.post("/users/register", (req, res) => {
     return res.status(404).send({ response: "missing some fields" });
   }
 });
-
+// #############################################################
+// isAuthentificated
+router.get("/authentication", isAuthenticated, (req, res, next) => {
+  res.json({ pula: "douaPula" });
+});
 module.exports = router;
