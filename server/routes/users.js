@@ -3,8 +3,10 @@ const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
+const jwt = require("jsonwebtoken");
 // users/login
 const User = require("../models/User");
+const Token = require("../models/Token");
 
 router.post("/users/login", async (req, res) => {
   const { username, password } = req.body;
@@ -19,14 +21,40 @@ router.post("/users/login", async (req, res) => {
     if (!user) {
       return res.status(404).send({ response: "wrong username" });
     }
-    bcrypt.compare(password, user.password, (error, isSame) => {
+    bcrypt.compare(password, user.password, async (error, isSame) => {
       if (error) {
         return res.status(500).send();
       }
       if (!isSame) {
         return res.status(404).send({});
       } else {
-        return res.status(200).send({ username: user.username });
+        const token = jwt.sign(
+          { userId: user.id, username: user.username },
+          "mysecretkey"
+        );
+        const previousToken = await Token.query()
+          .select()
+          .where({ user_id: user.id })
+          .limit(1);
+        // console.log(!previousToken[0]);
+
+        if (!previousToken[0]) {
+          const newToken = await Token.query().insert({
+            token,
+            ttl: 360000,
+            user_id: user.id,
+          });
+          console.log("this is it", newToken.token);
+        } else {
+          await Token.query().where({ user_id: user.id }).del();
+          const newToken = await Token.query().insert({
+            token,
+            ttl: 360000,
+            user_id: user.id,
+          });
+          console.log("new token here", newToken.token);
+        }
+        return res.status(200).send({ username: user.username, token });
       }
     });
   } else {
