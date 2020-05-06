@@ -126,7 +126,7 @@ router.post("/register", (req, res) => {
   }
 });
 // #############################################################
-// user/
+// user/delete
 router.delete("/delete", isAuthenticated, async (req, res, next) => {
   await Token.query().where({ user_id: req.userId }).del();
   await Password.query().where({ user_id: req.userId }).del();
@@ -134,6 +134,20 @@ router.delete("/delete", isAuthenticated, async (req, res, next) => {
   console.log(deleteUser);
 
   res.json({ deletedUser: deleteUser });
+});
+// #############################################################
+// user/update-password
+router.put("/update-password", isAuthenticated, async (req, res, next) => {
+  const { newPassword } = req.body;
+  bcrypt.hash(newPassword, saltRounds, async (error, hashedPassword) => {
+    if (error) {
+      res.json({ response: "error updating the password" });
+    }
+    const updatedUser = await User.query()
+      .where({ id: req.userId })
+      .update({ password: hashedPassword });
+    res.json({ updatedUser });
+  });
 });
 // #############################################################
 // isAuthentificated
