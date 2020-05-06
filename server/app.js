@@ -35,9 +35,11 @@ app.use("/users/register", authLimiter);
 
 /* Set up routes with our server instance */
 const usersRoute = require("./routes/users.js");
+const passwordsRoute = require("./routes/passwords.js");
 
 // only use the custom middleware for the secondpath route
 app.use("/users", usersRoute);
+app.use("/passwords", passwordsRoute);
 
 // Start the server
 const port = process.env.PORT || 9090;

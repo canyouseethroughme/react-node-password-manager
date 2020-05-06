@@ -23,14 +23,14 @@ router.post("/login", async (req, res) => {
         .limit(1);
       const user = users[0];
       if (!user) {
-        return res.status(404).send({ response: "wrong username" });
+        return res.status(404).send({ response: "wrong credentials" });
       }
       bcrypt.compare(password, user.password, async (error, isSame) => {
         if (error) {
           return res.status(500).send();
         }
         if (!isSame) {
-          return res.status(404).send({});
+          return res.status(404).send({ response: "wrong credentials" });
         } else {
           const token = jwt.sign(
             { userId: user.id, username: user.username },
