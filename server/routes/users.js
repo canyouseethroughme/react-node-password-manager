@@ -7,11 +7,12 @@ const jwt = require("jsonwebtoken");
 // Models
 const User = require("../models/User");
 const Token = require("../models/Token");
+const Password = require("../models/Password");
 // Authentification
 const { isAuthenticated } = require("../middleware/auth");
 
 // users/login
-router.post("/users/login", async (req, res) => {
+router.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
   try {
@@ -68,7 +69,7 @@ router.post("/users/login", async (req, res) => {
 });
 // #############################################################
 // users/register
-router.post("/users/register", (req, res) => {
+router.post("/register", (req, res) => {
   const {
     username,
     password,
@@ -123,6 +124,16 @@ router.post("/users/register", (req, res) => {
   } else {
     return res.status(404).send({ response: "missing some fields" });
   }
+});
+// #############################################################
+// user/
+router.delete("/delete", isAuthenticated, async (req, res, next) => {
+  await Token.query().where({ user_id: req.userId }).del();
+  await Password.query().where({ user_id: req.userId }).del();
+  const deleteUser = await User.query().where({ id: req.userId }).del();
+  console.log(deleteUser);
+
+  res.json({ deletedUser: deleteUser });
 });
 // #############################################################
 // isAuthentificated

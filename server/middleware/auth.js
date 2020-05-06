@@ -29,6 +29,7 @@ const isAuthenticated = async (req, res, next) => {
   ) {
     return next(error);
   } else {
+    req.userId = tokenFound[0].user_id;
     return next();
   }
 };
