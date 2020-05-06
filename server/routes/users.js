@@ -131,8 +131,6 @@ router.delete("/delete", isAuthenticated, async (req, res, next) => {
   await Token.query().where({ user_id: req.userId }).del();
   await Password.query().where({ user_id: req.userId }).del();
   const deleteUser = await User.query().where({ id: req.userId }).del();
-  console.log(deleteUser);
-
   res.json({ deletedUser: deleteUser });
 });
 // #############################################################

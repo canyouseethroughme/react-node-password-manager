@@ -23,5 +23,36 @@ router.get("/", isAuthenticated, async (req, res, next) => {
   res.json({ passwords });
 });
 // #######################################################
-
+// update
+router.put("/update/:id", async (req, res, next) => {
+  const passId = req.params.id;
+  const { username, password } = req.body;
+  const updateUsername = await Password.query()
+    .where({
+      id: passId,
+    })
+    .update({
+      username,
+    });
+  const updatePassword = await Password.query()
+    .where({
+      id: passId,
+    })
+    .update({
+      password,
+    });
+  res.json({ updatePassword, updateUsername });
+});
+// #######################################################
+// delete
+router.delete("/delete/:id", isAuthenticated, async (req, res, next) => {
+  const passId = req.params.id;
+  const deletePassword = await Password.query()
+    .where({
+      id: passId,
+    })
+    .del();
+  res.json({ deletePassword: deletePassword });
+});
+// #######################################################
 module.exports = router;
