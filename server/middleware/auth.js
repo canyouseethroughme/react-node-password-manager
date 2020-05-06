@@ -1,9 +1,7 @@
 const jwt = require("jsonwebtoken");
-// Models
-const User = require("../models/User");
 const Token = require("../models/Token");
 
-const isAuthenticated = (req, res, next) => {
+const isAuthenticated = async (req, res, next) => {
   const error = new Error("Unauthorized");
   error.status = 401;
 
@@ -18,7 +16,7 @@ const isAuthenticated = (req, res, next) => {
     return next(error);
   }
 
-  const tokenFound = Token.query().select().where({ token });
+  const tokenFound = await Token.query().select().where({ token });
   if (!tokenFound[0]) {
     return next(error);
   }
