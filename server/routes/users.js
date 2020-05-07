@@ -57,7 +57,9 @@ router.post("/login", async (req, res) => {
               user_id: user.id,
             });
           }
-          return res.status(200).send({ username: user.username, token });
+          console.log("new login from user", user);
+          // return res.status(200).send({ username: user.username, token });
+          res.json({ username: user.username, token });
         }
       });
     } else {
