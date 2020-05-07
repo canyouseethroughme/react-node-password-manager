@@ -10,6 +10,8 @@ const Token = require("../models/Token");
 const Password = require("../models/Password");
 // Authentification
 const { isAuthenticated } = require("../middleware/auth");
+// Nodemailer
+const { transporter } = require("../config/nodemailer");
 
 // users/login
 router.post("/login", async (req, res) => {
@@ -76,12 +78,14 @@ router.post("/register", (req, res) => {
     repeatedPassword,
     firstName,
     lastName,
+    email,
   } = req.body;
   if (
     username &&
     password &&
     repeatedPassword &&
-    password === repeatedPassword
+    password === repeatedPassword &&
+    email
   ) {
     if (password.length < 8) {
       return res
@@ -106,7 +110,26 @@ router.post("/register", (req, res) => {
               password: hashedPassword,
               first_name: firstName,
               last_name: lastName,
+              email,
             });
+            // NODEMAILER
+            console.log(newUser);
+            const mailOptions = {
+              from: "testersen420@gmail.com",
+              to: email,
+              subject: "Mosquitos vs flies",
+              text: "Mosquitos are but flies a dick.",
+            };
+            transporter.sendMail(mailOptions, (err, data) => {
+              if (err) {
+                console.log("Email error", err);
+                return;
+              } else {
+                console.log("Email sent!");
+              }
+            });
+            // #################
+
             return res.status(200).send({ response: newUser.username });
           }
         } catch (error) {
