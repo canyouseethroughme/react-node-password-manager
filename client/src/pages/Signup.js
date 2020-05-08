@@ -10,23 +10,27 @@ export default function Signup() {
   const [repeatedPassword, setRepeatpass] = useState("");
 
   const signupUser = async (e) => {
-    e.preventDefault();
-    if (password !== repeatedPassword || password.length < 7) {
-      console.log("something aint right");
-    } else {
-      const { data } = await register({
-        username,
-        firstName,
-        lastName,
-        email,
-        password,
-        repeatedPassword,
-      });
-      console.log("====================================");
-      console.log("register data", data);
-      console.log("====================================");
-      const form = document.querySelector("form");
-      form.reset();
+    try {
+      e.preventDefault();
+      if (password !== repeatedPassword || password.length < 7) {
+        console.log("something aint right");
+      } else {
+        const { data } = await register({
+          username,
+          firstName,
+          lastName,
+          email,
+          password,
+          repeatedPassword,
+        });
+        console.log("====================================");
+        console.log("register data", data);
+        console.log("====================================");
+        const form = document.querySelector("form");
+        form.reset();
+      }
+    } catch (e) {
+      console.log("There is a problem creating your account||", e);
     }
   };
   return (

@@ -29,7 +29,12 @@ router.post("/login", async (req, res) => {
       }
       bcrypt.compare(password, user.password, async (error, isSame) => {
         if (error) {
-          return res.status(500).send();
+          return res
+            .status(500)
+            .send({
+              response: "something went wrong with the password",
+              error,
+            });
         }
         if (!isSame) {
           return res.status(404).send({ response: "wrong credentials" });
@@ -122,15 +127,16 @@ router.post("/register", (req, res) => {
             };
             transporter.sendMail(mailOptions, (err, data) => {
               if (err) {
+                res
+                  .status(403)
+                  .json({ response: "Problems creating the account, ", err });
                 console.log("Email error", err);
                 return;
               } else {
-                console.log("Email sent!");
+                return res.status(200).send({ response: newUser.username });
               }
             });
             // #################
-
-            return res.status(200).send({ response: newUser.username });
           }
         } catch (error) {
           return res.status(500).send({

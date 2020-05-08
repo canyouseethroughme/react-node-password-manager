@@ -7,15 +7,19 @@ export default function Login() {
   const [password, setPassword] = useState("");
 
   const loginUser = async (e) => {
-    e.preventDefault();
-    const { data } = await login({ username, password });
-    setAuthToken(data.token);
-    localStorage.setItem("token", data.token);
-    const form = document.querySelector("form");
-    form.reset();
-    console.log("====================================");
-    console.log("login data", data);
-    console.log("====================================");
+    try {
+      e.preventDefault();
+      const { data } = await login({ username, password });
+      setAuthToken(data.token);
+      localStorage.setItem("token", data.token);
+      const form = document.querySelector("form");
+      form.reset();
+      console.log("====================================");
+      console.log("login data", data);
+      console.log("====================================");
+    } catch (e) {
+      console.log("There is a problem with login||", e);
+    }
   };
   return (
     <form>
