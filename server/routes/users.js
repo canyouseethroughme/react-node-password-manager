@@ -120,10 +120,16 @@ router.post("/register", (req, res) => {
               from: "SavePassMe",
               to: email,
               subject:
-                "Easy to use and packed with thoughtfully designed features",
-              text: `   The fact that SavePassMe is open source means anyone can inspect the code for potential weaknesses, which means that any security issues can be identified and fixed quickly, and there's a huge range of browser plugins and third-party apps for integrating its database with your browser and mobile devices. 
-              
-It lacks the convenience of commercial password managers, but if you'd prefer to keep your passwords stored locally then SavePassMe is a good option.`,
+                "Password manager easy to use and packed with thoughtfully designed features",
+              text: "",
+              attachments: [
+                {
+                  filename: "pitch.pdf",
+                  path:
+                    "/Users/picotto/Desktop/mandatory 2/mandatory/server/docs/pitch.pdf",
+                  contentType: "application/pdf",
+                },
+              ],
             };
             transporter.sendMail(mailOptions, (err, data) => {
               if (err) {

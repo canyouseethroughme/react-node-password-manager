@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { login } from "../networking/users";
 import { setAuthToken } from "../networking/HTTPservice";
-import PasswordManager from "./PasswordManager";
+import { useHistory } from "react-router-dom";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const history = useHistory();
 
   const loginUser = async (e) => {
     try {
@@ -18,6 +19,8 @@ export default function Login() {
       console.log("====================================");
       console.log("login data", data);
       console.log("====================================");
+      history.push("/passwords");
+      window.location.reload();
     } catch (e) {
       console.log("There is a problem with login||", e);
     }
@@ -37,7 +40,6 @@ export default function Login() {
         />
         <button onClick={loginUser}>Login</button>
       </form>
-      <PasswordManager />
     </div>
   );
 }

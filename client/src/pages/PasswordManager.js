@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { createPassword } from "../networking/passwords";
+import React, { useState, useEffect } from "react";
+import { createPassword, getPasswords } from "../networking/passwords";
 
 export default function PasswordManager() {
   const [account, setAccount] = useState("");
@@ -13,6 +13,11 @@ export default function PasswordManager() {
     const form = document.querySelector("form");
     form.reset();
   };
+  useEffect(() => {
+    const data = getPasswords();
+    console.log(data);
+  }, []);
+
   return (
     <div>
       <form>
@@ -33,6 +38,14 @@ export default function PasswordManager() {
         />
         <button onClick={addAccount}>Add</button>
       </form>
+      <button
+        onClick={async () => {
+          const data = await getPasswords();
+          console.log(data);
+        }}
+      >
+        button
+      </button>
     </div>
   );
 }
