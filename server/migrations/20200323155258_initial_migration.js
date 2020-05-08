@@ -7,7 +7,8 @@ exports.up = function (knex) {
       table.string("first_name").notNullable();
       table.string("last_name").notNullable();
       table.string("email").notNullable().unique();
-      table.timestamps(true, true);
+      table.timestamp("created_at").defaultTo(knex.fn.now());
+      table.timestamp("updated_at").defaultTo(knex.fn.now());
     })
     .createTable("passwords", (table) => {
       table.increments("id");
@@ -16,14 +17,16 @@ exports.up = function (knex) {
       table.string("password").notNullable();
       table.integer("user_id").unsigned().notNullable();
       table.foreign("user_id").references("users.id");
-      table.timestamps(true, true);
+      table.timestamp("created_at").defaultTo(knex.fn.now());
+      table.timestamp("updated_at").defaultTo(knex.fn.now());
     })
     .createTable("tokens", (table) => {
       table.string("token").notNullable().primary();
       table.integer("ttl").notNullable();
       table.integer("user_id").unsigned().notNullable();
       table.foreign("user_id").references("users.id");
-      table.timestamps(true, true);
+      table.timestamp("created_at").defaultTo(knex.fn.now());
+      table.timestamp("updated_at").defaultTo(knex.fn.now());
     });
 };
 
