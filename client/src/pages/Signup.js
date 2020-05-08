@@ -1,5 +1,9 @@
 import React, { useState } from "react";
 import { register } from "../networking/users";
+import { useHistory } from "react-router-dom";
+
+import Input from "../components/Input";
+import Button from "../components/Button";
 
 export default function Signup() {
   const [username, setUsername] = useState("");
@@ -8,6 +12,7 @@ export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [repeatedPassword, setRepeatpass] = useState("");
+  const history = useHistory();
 
   const signupUser = async (e) => {
     try {
@@ -26,46 +31,63 @@ export default function Signup() {
         console.log("====================================");
         console.log("register data", data);
         console.log("====================================");
-        const form = document.querySelector("form");
-        form.reset();
+        history.push("/");
+        window.location.reload();
       }
     } catch (e) {
-      console.log("There is a problem creating your account||", e);
+      console.log("There is a problem creating your account & ", e);
     }
   };
+
+  const wrapperStyle = {
+    width: "100vw",
+    marginTop: "30vh",
+    display: "grid",
+    justifyContent: "center",
+    alignItems: "center",
+  };
+
+  const formStyle = {
+    display: "grid",
+    gridTemplateColumns: "1fr",
+    gridGap: ".5rem",
+  };
+
   return (
-    <form>
-      <input
-        type="text"
-        placeholder="Username"
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <input
-        type="text"
-        placeholder="First Name"
-        onChange={(e) => setFirstname(e.target.value)}
-      />
-      <input
-        type="text"
-        placeholder="Last Name"
-        onChange={(e) => setLastname(e.target.value)}
-      />
-      <input
-        type="email"
-        placeholder="Email"
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Repeat password"
-        onChange={(e) => setRepeatpass(e.target.value)}
-      />
-      <button onClick={signupUser}>Sign up</button>
-    </form>
+    <div style={wrapperStyle}>
+      <form style={formStyle}>
+        <Input
+          type="text"
+          placeholder="Username*"
+          onChange={(e) => setUsername(e.target.value)}
+        />
+        <Input
+          type="text"
+          placeholder="First Name*"
+          onChange={(e) => setFirstname(e.target.value)}
+        />
+        <Input
+          type="text"
+          placeholder="Last Name*"
+          onChange={(e) => setLastname(e.target.value)}
+        />
+        <Input
+          type="email"
+          placeholder="Email*"
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <Input
+          type="password"
+          placeholder="Password*"
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <Input
+          type="password"
+          placeholder="Repeat password*"
+          onChange={(e) => setRepeatpass(e.target.value)}
+        />
+        <Button onClick={signupUser} name="Create account" />
+      </form>
+    </div>
   );
 }

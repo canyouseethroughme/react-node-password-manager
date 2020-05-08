@@ -3,6 +3,9 @@ import { login } from "../networking/users";
 import { setAuthToken } from "../networking/HTTPservice";
 import { useHistory } from "react-router-dom";
 
+import Input from "../components/Input";
+import Button from "../components/Button";
+
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -25,20 +28,33 @@ export default function Login() {
       console.log("There is a problem with login||", e);
     }
   };
+  const wrapperStyle = {
+    width: "100vw",
+    marginTop: "30vh",
+    display: "grid",
+    justifyContent: "center",
+    alignItems: "center",
+  };
+
+  const formStyle = {
+    display: "grid",
+    gridTemplateColumns: "1fr",
+    gridGap: ".5rem",
+  };
   return (
-    <div>
-      <form>
-        <input
+    <div style={wrapperStyle}>
+      <form style={formStyle}>
+        <Input
           type="text"
-          placeholder="Username"
+          placeholder="Username*"
           onChange={(e) => setUsername(e.target.value)}
         />
-        <input
+        <Input
           type="password"
-          placeholder="Password"
+          placeholder="Password*"
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button onClick={loginUser}>Login</button>
+        <Button onClick={loginUser} name="Login" />
       </form>
     </div>
   );

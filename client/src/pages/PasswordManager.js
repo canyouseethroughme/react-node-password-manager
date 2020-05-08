@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { createPassword, getPasswords } from "../networking/passwords";
+import Input from "../components/Input";
+import Button from "../components/Button";
+import styled from "styled-components";
 
 export default function PasswordManager() {
   const [account, setAccount] = useState("");
@@ -18,34 +21,38 @@ export default function PasswordManager() {
     console.log(data);
   }, []);
 
+  const Form = styled.form`
+    margin-top: 25vh;
+  `;
+
   return (
     <div>
-      <form>
-        <input
+      <Form>
+        <Input
           type="text"
           placeholder="Account name"
           onChange={(e) => setAccount(e.target.value)}
         />
-        <input
+        <Input
           type="text"
           placeholder="User name"
           onChange={(e) => setUsername(e.target.value)}
         />
-        <input
+        <Input
           type="text"
           placeholder="Password"
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button onClick={addAccount}>Add</button>
-      </form>
-      <button
+        <Button onClick={addAccount} name="Add new account" />
+      </Form>
+      {/* <button
         onClick={async () => {
           const data = await getPasswords();
           console.log(data);
         }}
       >
         button
-      </button>
+      </button> */}
     </div>
   );
 }

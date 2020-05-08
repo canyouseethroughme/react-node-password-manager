@@ -11,6 +11,7 @@ import PasswordManager from "./pages/PasswordManager";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [link, setLink] = useState("login");
   const history = useHistory();
   const checkedLoggedIn = () => {
     const token = localStorage.getItem("token");
@@ -20,24 +21,45 @@ function App() {
     return token ? true : false;
   };
 
+  const swapLinks = (newLink) => {
+    setLink(newLink);
+  };
+
   useEffect(() => {
     setIsLoggedIn(checkedLoggedIn);
   }, []);
 
+  const navStyle = {
+    width: "100vw",
+    position: "absolute",
+    bottom: "20vh",
+    margin: "auto",
+  };
+  const ulStyle = {
+    listStyleType: "none",
+    padding: 0,
+  };
+
   return (
     <div className="App">
-      <nav>
-        <ul>
-          {!isLoggedIn && (
-            <li>
-              <Link to="/">Login</Link>
-            </li>
-          )}
-          {!isLoggedIn && (
-            <li>
-              <Link to="/sign-up">Sign Up</Link>
-            </li>
-          )}
+      <nav style={navStyle}>
+        <ul style={ulStyle}>
+          {link === "signup"
+            ? !isLoggedIn && (
+                <li>
+                  <Link to="/" onClick={() => swapLinks("login")}>
+                    Already have an account? Click here to <span>login</span>.
+                  </Link>
+                </li>
+              )
+            : !isLoggedIn && (
+                <li>
+                  <Link to="/sign-up" onClick={() => swapLinks("signup")}>
+                    Don't have an account? Click here to <span>sign up</span>.
+                  </Link>
+                </li>
+              )}
+
           {isLoggedIn && (
             <li>
               <button
