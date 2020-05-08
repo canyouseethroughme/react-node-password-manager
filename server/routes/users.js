@@ -29,12 +29,10 @@ router.post("/login", async (req, res) => {
       }
       bcrypt.compare(password, user.password, async (error, isSame) => {
         if (error) {
-          return res
-            .status(500)
-            .send({
-              response: "something went wrong with the password",
-              error,
-            });
+          return res.status(500).send({
+            response: "something went wrong with the password",
+            error,
+          });
         }
         if (!isSame) {
           return res.status(404).send({ response: "wrong credentials" });
@@ -119,11 +117,13 @@ router.post("/register", (req, res) => {
             });
             // NODEMAILER
             const mailOptions = {
-              from: "testersen420@gmail.com",
+              from: "SavePassMe",
               to: email,
-              subject: "MOSQUITOES & FLIES",
-              text:
-                "The first similarity between mosquitoes and flies is that both insects are a part of the “Order Diptera.” This means that they have “two” (di-) “wings” (-ptera). Other members of this order include midges, sand flies and blowflies. One of the most distinctive characteristics of Diptera insects is that they use only one pair of wings to fly — rather than the more common two pairs. Some of them possess a second pair of wings; however, these wings function as club-like “balancers” rather than performing as fully functioning wings.",
+              subject:
+                "Easy to use and packed with thoughtfully designed features",
+              text: `   The fact that SavePassMe is open source means anyone can inspect the code for potential weaknesses, which means that any security issues can be identified and fixed quickly, and there's a huge range of browser plugins and third-party apps for integrating its database with your browser and mobile devices. 
+              
+It lacks the convenience of commercial password managers, but if you'd prefer to keep your passwords stored locally then SavePassMe is a good option.`,
             };
             transporter.sendMail(mailOptions, (err, data) => {
               if (err) {
