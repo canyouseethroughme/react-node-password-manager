@@ -87,7 +87,7 @@ router.post("/register", (req, res) => {
     password === repeatedPassword &&
     email
   ) {
-    if (password.length < 8) {
+    if (password.length < 7) {
       return res
         .status(404)
         .send({ response: "password does not fulfill the requirements" });
@@ -113,12 +113,12 @@ router.post("/register", (req, res) => {
               email,
             });
             // NODEMAILER
-            console.log(newUser);
             const mailOptions = {
               from: "testersen420@gmail.com",
               to: email,
-              subject: "Mosquitos vs flies",
-              text: "Mosquitos are but flies a dick.",
+              subject: "MOSQUITOES & FLIES",
+              text:
+                "The first similarity between mosquitoes and flies is that both insects are a part of the “Order Diptera.” This means that they have “two” (di-) “wings” (-ptera). Other members of this order include midges, sand flies and blowflies. One of the most distinctive characteristics of Diptera insects is that they use only one pair of wings to fly — rather than the more common two pairs. Some of them possess a second pair of wings; however, these wings function as club-like “balancers” rather than performing as fully functioning wings.",
             };
             transporter.sendMail(mailOptions, (err, data) => {
               if (err) {

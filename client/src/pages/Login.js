@@ -11,15 +11,22 @@ export default function Login() {
     const { data } = await login({ username, password });
     setAuthToken(data.token);
     localStorage.setItem("token", data.token);
+    const form = document.querySelector("form");
+    form.reset();
+    console.log("====================================");
+    console.log("login data", data);
+    console.log("====================================");
   };
   return (
     <form>
       <input
-        placeholder="username"
+        type="text"
+        placeholder="Username"
         onChange={(e) => setUsername(e.target.value)}
       />
       <input
-        placeholder="password"
+        type="password"
+        placeholder="Password"
         onChange={(e) => setPassword(e.target.value)}
       />
       <button onClick={loginUser}>Login</button>
