@@ -12,6 +12,7 @@ export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [repeatedPassword, setRepeatpass] = useState("");
+  const [loading, setLoading] = useState(false);
   const history = useHistory();
 
   const signupUser = async (e) => {
@@ -20,6 +21,7 @@ export default function Signup() {
       if (password !== repeatedPassword || password.length < 7) {
         console.log("something aint right");
       } else {
+        setLoading(true);
         const { data } = await register({
           username,
           firstName,
@@ -35,7 +37,7 @@ export default function Signup() {
         window.location.reload();
       }
     } catch (e) {
-      console.log("There is a problem creating your account & ", e);
+      console.log("There is a problem creating your account. Error: ", e);
     }
   };
 
@@ -86,7 +88,11 @@ export default function Signup() {
           placeholder="Repeat password*"
           onChange={(e) => setRepeatpass(e.target.value)}
         />
-        <Button onClick={signupUser} name="Create account" />
+        {loading ? (
+          <Button name="Loading.." />
+        ) : (
+          <Button onClick={signupUser} name="Create account" />
+        )}
       </form>
     </div>
   );

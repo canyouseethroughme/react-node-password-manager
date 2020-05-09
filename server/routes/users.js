@@ -119,17 +119,8 @@ router.post("/register", (req, res) => {
             const mailOptions = {
               from: "SavePassMe",
               to: email,
-              subject:
-                "Password manager easy to use and packed with thoughtfully designed features",
-              text: "",
-              attachments: [
-                {
-                  filename: "pitch.pdf",
-                  path:
-                    "/Users/picotto/Desktop/mandatory 2/mandatory/server/docs/pitch.pdf",
-                  contentType: "application/pdf",
-                },
-              ],
+              subject: "Password manager",
+              text: `Welcome, ${username} to the best thing since Windows 95 until now!`,
             };
             transporter.sendMail(mailOptions, (err, data) => {
               if (err) {

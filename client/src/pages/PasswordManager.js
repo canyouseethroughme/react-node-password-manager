@@ -4,6 +4,10 @@ import Input from "../components/Input";
 import Button from "../components/Button";
 import styled from "styled-components";
 
+const Form = styled.form`
+  margin-top: 25vh;
+`;
+
 export default function PasswordManager() {
   const [account, setAccount] = useState("");
   const [username, setUsername] = useState("");
@@ -20,10 +24,6 @@ export default function PasswordManager() {
     const data = getPasswords();
     console.log(data);
   }, []);
-
-  const Form = styled.form`
-    margin-top: 25vh;
-  `;
 
   return (
     <div>

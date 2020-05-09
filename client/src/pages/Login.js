@@ -9,6 +9,7 @@ import Button from "../components/Button";
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(true);
   const history = useHistory();
 
   const loginUser = async (e) => {
@@ -25,7 +26,11 @@ export default function Login() {
       history.push("/passwords");
       window.location.reload();
     } catch (e) {
-      console.log("There is a problem with login||", e);
+      setLoading(false);
+      setTimeout(function () {
+        setLoading(true);
+      }, 2000);
+      console.log("There is a problem with login. Error: ", e);
     }
   };
   const wrapperStyle = {
@@ -54,7 +59,11 @@ export default function Login() {
           placeholder="Password*"
           onChange={(e) => setPassword(e.target.value)}
         />
-        <Button onClick={loginUser} name="Login" />
+        {loading ? (
+          <Button onClick={loginUser} name="Login" />
+        ) : (
+          <Button name="Wrong credentials.." />
+        )}
       </form>
     </div>
   );

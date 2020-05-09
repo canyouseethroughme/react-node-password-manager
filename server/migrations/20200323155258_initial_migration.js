@@ -16,7 +16,7 @@ exports.up = function (knex) {
       table.string("username").notNullable();
       table.string("password").notNullable();
       table.integer("user_id").unsigned().notNullable();
-      table.foreign("user_id").references("users.id");
+      table.foreign("user_id").references("users.id").onDelete("CASCADE");
       table.timestamp("created_at").defaultTo(knex.fn.now());
       table.timestamp("updated_at").defaultTo(knex.fn.now());
     })
@@ -24,7 +24,7 @@ exports.up = function (knex) {
       table.string("token").notNullable().primary();
       table.integer("ttl").notNullable();
       table.integer("user_id").unsigned().notNullable();
-      table.foreign("user_id").references("users.id");
+      table.foreign("user_id").references("users.id").onDelete("CASCADE");
       table.timestamp("created_at").defaultTo(knex.fn.now());
       table.timestamp("updated_at").defaultTo(knex.fn.now());
     });
