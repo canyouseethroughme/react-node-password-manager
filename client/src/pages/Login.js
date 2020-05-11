@@ -43,7 +43,7 @@ export default function Login() {
   };
   return (
     <div style={wrapperStyle}>
-      <form style={formStyle}>
+      <div style={formStyle}>
         <Input
           type="text"
           placeholder="Username*"
@@ -59,7 +59,7 @@ export default function Login() {
         ) : (
           <Button name="Wrong credentials.." />
         )}
-      </form>
+      </div>
     </div>
   );
 }

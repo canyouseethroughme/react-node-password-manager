@@ -32,10 +32,10 @@ function App() {
     setIsLoggedIn(checkedLoggedIn);
   }, []);
 
-  const logout = async () => {
-    await localStorage.removeItem("token");
-    await history.push("/");
-    await window.location.reload();
+  const logout = () => {
+    localStorage.removeItem("token");
+    history.push("/");
+    window.location.reload();
   };
 
   const navStyle = {
