@@ -21,10 +21,12 @@ export default function PasswordManager() {
 
   const addAccount = async (e) => {
     e.preventDefault();
-    await createPassword({ account, username, password });
-    getPasswordList();
-    const form = document.querySelector("form");
-    form.reset();
+    if (account.length > 3 && username.length > 3 && password.length > 3) {
+      await createPassword({ account, username, password });
+      getPasswordList();
+      const form = document.querySelector("form");
+      form.reset();
+    }
   };
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -40,8 +42,7 @@ export default function PasswordManager() {
       const list = data.passwords;
       setPasswordList(list);
     } catch (e) {
-      console.log(e);
-      await localStorage.clear();
+      localStorage.clear();
       history.push("/");
       window.location.reload();
     }
