@@ -15,6 +15,6 @@ export const updatePassword = async (passId, data) => {
   return axios.put(`${url}/update/${passId}`, data);
 };
 
-export const deletePassword = async (passId, data) => {
-  return axios.delete(`${url}/update/${passId}`, data);
+export const deletePassword = async (passId) => {
+  return axios.delete(`${url}/delete/${passId}`);
 };

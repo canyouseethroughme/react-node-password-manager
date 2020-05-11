@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { createPassword, getPasswords } from "../networking/passwords";
 import { setAuthToken } from "../networking/HTTPservice";
 import Input from "../components/Input";
@@ -16,11 +17,12 @@ export default function PasswordManager() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [passwordList, setPasswordList] = useState([]);
+  const history = useHistory();
 
   const addAccount = async (e) => {
     e.preventDefault();
     await createPassword({ account, username, password });
-    // console.log(newAccount);
+    getPasswordList();
     const form = document.querySelector("form");
     form.reset();
   };
@@ -33,12 +35,20 @@ export default function PasswordManager() {
   }, []);
 
   const getPasswordList = async () => {
-    const { data } = await getPasswords();
-    console.log("====================================");
-    console.log("data here l ", data.passwords);
-    console.log("====================================");
-    const list = data.passwords;
-    setPasswordList(list);
+    try {
+      const { data } = await getPasswords();
+      const list = data.passwords;
+      setPasswordList(list);
+    } catch (e) {
+      console.log(e);
+      await localStorage.clear();
+      history.push("/");
+      window.location.reload();
+    }
+  };
+
+  const deleteItem = (id) => {
+    setPasswordList(passwordList.filter((x) => x.id !== id));
   };
 
   return (
@@ -47,17 +57,17 @@ export default function PasswordManager() {
         <Title title="Add new accounts" />
         <Input
           type="text"
-          placeholder="Account name"
+          placeholder="Account name*"
           onChange={(e) => setAccount(e.target.value)}
         />
         <Input
           type="text"
-          placeholder="User name"
+          placeholder="User name*"
           onChange={(e) => setUsername(e.target.value)}
         />
         <Input
           type="text"
-          placeholder="Password"
+          placeholder="Password*"
           onChange={(e) => setPassword(e.target.value)}
         />
         <Button onClick={addAccount} name="Add account" />
@@ -69,6 +79,8 @@ export default function PasswordManager() {
           account={item.account}
           username={item.username}
           password={item.password}
+          id={item.id}
+          onDelete={deleteItem}
         />
       ))}
     </div>

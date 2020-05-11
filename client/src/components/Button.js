@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 const Buttones = styled.button`
   margin-top: 20px;
+  padding: 0 5px;
   background-color: #bababa;
   height: 30px;
   border-bottom: 2px solid black;

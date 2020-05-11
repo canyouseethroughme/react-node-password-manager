@@ -10,6 +10,7 @@ import Signup from "./pages/Signup";
 import ForgotUserPassword from "./pages/ForgotUserPassword";
 import UpdateUserPassword from "./pages/UpdateUserPassword";
 import PasswordManager from "./pages/PasswordManager";
+import Button from "./components/Button";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -49,6 +50,12 @@ function App() {
     padding: 0,
   };
 
+  const logoutButton = {
+    position: "absolute",
+    top: "-35rem",
+    right: "5rem",
+  };
+
   return (
     <div className="App">
       <nav style={navStyle}>
@@ -76,8 +83,8 @@ function App() {
             </li>
           )}
           {isLoggedIn && (
-            <li>
-              <button onClick={logout}>Logout</button>
+            <li style={logoutButton}>
+              <Button onClick={logout} name="Logout" />
             </li>
           )}
         </ul>
@@ -98,11 +105,11 @@ function App() {
             <ForgotUserPassword />
           </Route>
         )}
-
-        <Route path="/update-password/:token">
-          <UpdateUserPassword />
-        </Route>
-
+        {!isLoggedIn && (
+          <Route path="/update-password/:token">
+            <UpdateUserPassword />
+          </Route>
+        )}
         {isLoggedIn && (
           <Route path="/passwords">
             <PasswordManager />

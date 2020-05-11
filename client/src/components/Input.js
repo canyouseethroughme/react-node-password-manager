@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const Inputs = styled.input`
   width: 200px;
-  height: 26px;
+  height: 30px;
   border-top: 2px solid black;
   border-left: 2px solid black;
   border-right: 2px solid lightgrey;
@@ -24,6 +24,7 @@ export default function Input(props) {
       placeholder={props.placeholder}
       onChange={props.onChange}
       disabled={props.disabled}
+      value={props.value}
     />
   );
 }
