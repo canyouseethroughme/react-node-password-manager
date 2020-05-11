@@ -119,8 +119,8 @@ router.post("/register", (req, res) => {
             const mailOptions = {
               from: "SavePassMe",
               to: email,
-              subject: "Password manager",
-              text: `Welcome, ${username} to the best thing since Windows 95 until now!`,
+              subject: "Password manager powered by Windows98",
+              text: `Welcome, ${username} to the best thing since Windows 98 until now!`,
             };
             transporter.sendMail(mailOptions, (err, data) => {
               if (err) {
@@ -160,22 +160,57 @@ router.delete("/delete", isAuthenticated, async (req, res, next) => {
   res.json({ deletedUser: deleteUser });
 });
 // #############################################################
-// user/update-password
-router.put("/update-password", isAuthenticated, async (req, res, next) => {
-  const { newPassword } = req.body;
-  bcrypt.hash(newPassword, saltRounds, async (error, hashedPassword) => {
-    if (error) {
-      res.json({ response: "error updating the password" });
+// user/forgot-password
+router.post("/forgot-password", async (req, res, next) => {
+  const { email } = req.body;
+  const token = await jwt.sign({ email }, "mysecretkey");
+  await User.query()
+    .select()
+    .where({ email })
+    .update({ reset_password: token });
+  // NODEMAILER
+  const mailOptions = {
+    from: "SavePassMe",
+    to: email,
+    subject: "Reset password for Password manager powered by Windows98",
+    text: `Visit this link to reset your password.
+      http://localhost:3000/update-password?token=${token}
+      `,
+  };
+  transporter.sendMail(mailOptions, (err, data) => {
+    if (err) {
+      res
+        .status(403)
+        .json({ response: "Problems creating the account, ", err });
+      console.log("Email error", err);
+      return;
+    } else {
+      // return res.status(200).send({ response: newUser.username });
+      res.json({ response: `reset password for ${email}` });
     }
-    const updatedUser = await User.query()
-      .where({ id: req.userId })
-      .update({ password: hashedPassword });
-    res.json({ updatedUser });
   });
+  // #################
+});
+// #############################################################
+// user/update-password
+router.put("/update-password", async (req, res, next) => {
+  const { newPassword } = req.body;
+  const { token } = req.query;
+  if (token) {
+    bcrypt.hash(newPassword, saltRounds, async (error, hashedPassword) => {
+      if (error) {
+        res.json({ response: "error updating the password" });
+      }
+      const updatedUser = await User.query()
+        .where({ reset_password: token })
+        .update({ password: hashedPassword });
+      res.json({ updatedUser });
+    });
+  }
 });
 // #############################################################
 // isAuthentificated
 router.get("/authentication", isAuthenticated, (req, res, next) => {
-  res.json({ pula: "douaPula" });
+  res.json({ response: "user is authenticated" });
 });
 module.exports = router;
