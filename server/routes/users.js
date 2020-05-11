@@ -174,7 +174,7 @@ router.post("/forgot-password", async (req, res, next) => {
     to: email,
     subject: "Reset password for Password manager powered by Windows98",
     text: `Visit this link to reset your password.
-      http://localhost:3000/update-password?token=${token}
+      http://localhost:3000/update-password/${token}
       `,
   };
   transporter.sendMail(mailOptions, (err, data) => {
@@ -191,9 +191,10 @@ router.post("/forgot-password", async (req, res, next) => {
 });
 // #############################################################
 // user/update-password
-router.put("/update-password", async (req, res, next) => {
+router.put("/update-password/:token", async (req, res, next) => {
   const { newPassword } = req.body;
-  const { token } = req.query;
+  const token = req.params.token;
+  console.log("tasdasdadsa", token);
   if (token) {
     bcrypt.hash(newPassword, saltRounds, async (error, hashedPassword) => {
       if (error) {

@@ -7,7 +7,8 @@ import "./App.css";
 
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import ForgotPassword from "./pages/ForgotPassword";
+import ForgotUserPassword from "./pages/ForgotUserPassword";
+import UpdateUserPassword from "./pages/UpdateUserPassword";
 import PasswordManager from "./pages/PasswordManager";
 
 function App() {
@@ -94,9 +95,14 @@ function App() {
         )}
         {!isLoggedIn && (
           <Route path="/forgot-password">
-            <ForgotPassword />
+            <ForgotUserPassword />
           </Route>
         )}
+
+        <Route path="/update-password/:token">
+          <UpdateUserPassword />
+        </Route>
+
         {isLoggedIn && (
           <Route path="/passwords">
             <PasswordManager />

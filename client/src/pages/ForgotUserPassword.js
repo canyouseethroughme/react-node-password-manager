@@ -5,21 +5,21 @@ import { useHistory } from "react-router-dom";
 import Input from "../components/Input";
 import Button from "../components/Button";
 
-export default function Login() {
+export default function ForgotUserPassword() {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const history = useHistory();
 
-  const sendEmail = async (e) => {
+  const sendEmail = (e) => {
     try {
       e.preventDefault();
-      await forgotPass({ email });
+      forgotPass({ email });
       setLoading(true);
       setTimeout(function () {
         setLoading(false);
         history.push("/");
         window.location.reload();
-      }, 2000);
+      }, 3000);
     } catch (e) {
       console.log("There is a problem with login. Error: ", e);
     }

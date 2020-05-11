@@ -14,3 +14,7 @@ export const register = async (data) => {
 export const forgotPass = async (data) => {
   return axios.post(`${localhost}${url}/forgot-password`, data);
 };
+
+export const updatePass = async (token, data) => {
+  return axios.put(`${localhost}${url}/update-password/${token}`, data);
+};
