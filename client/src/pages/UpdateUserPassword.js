@@ -17,14 +17,14 @@ export default function UpdateUserPassword() {
         e.preventDefault();
         const token = window.location.href.split("/")[4];
         updatePass(token, { newPassword: password });
-        history.push("/");
-        window.location.reload();
+        setLoading(false);
+        setTimeout(function () {
+          setLoading(true);
+          history.push("/");
+          window.location.reload();
+        }, 2000);
       }
     } catch (err) {
-      setLoading(false);
-      setTimeout(function () {
-        setLoading(true);
-      }, 2000);
       console.log("There is a problem with login. Error: ", err);
     }
   };

@@ -194,7 +194,6 @@ router.post("/forgot-password", async (req, res, next) => {
 router.put("/update-password/:token", async (req, res, next) => {
   const { newPassword } = req.body;
   const token = req.params.token;
-  console.log("tasdasdadsa", token);
   if (token) {
     bcrypt.hash(newPassword, saltRounds, async (error, hashedPassword) => {
       if (error) {
