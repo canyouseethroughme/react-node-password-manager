@@ -10,3 +10,7 @@ export const login = async (data) => {
 export const register = async (data) => {
   return axios.post(`${localhost}${url}/register`, data);
 };
+
+export const forgotPass = async (data) => {
+  return axios.post(`${localhost}${url}/forgot-password`, data);
+};

@@ -18,8 +18,6 @@ export default function Login() {
       const { data } = await login({ username, password });
       setAuthToken(data.token);
       localStorage.setItem("token", data.token);
-      const form = document.querySelector("form");
-      form.reset();
       console.log("====================================");
       console.log("login data", data);
       console.log("====================================");

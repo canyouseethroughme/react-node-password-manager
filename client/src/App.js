@@ -29,6 +29,12 @@ function App() {
     setIsLoggedIn(checkedLoggedIn);
   }, []);
 
+  const logout = async () => {
+    await localStorage.removeItem("token");
+    await history.push("/");
+    await window.location.reload();
+  };
+
   const navStyle = {
     width: "100vw",
     position: "absolute",
@@ -62,15 +68,7 @@ function App() {
 
           {isLoggedIn && (
             <li>
-              <button
-                onClick={() => {
-                  localStorage.removeItem("token");
-                  history.push("/");
-                  window.location.reload();
-                }}
-              >
-                Logout
-              </button>
+              <button onClick={logout}>Logout</button>
             </li>
           )}
         </ul>
