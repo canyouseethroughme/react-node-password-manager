@@ -7,12 +7,14 @@ import "./App.css";
 
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import ForgotPassword from "./pages/ForgotPassword";
 import PasswordManager from "./pages/PasswordManager";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [link, setLink] = useState("login");
   const history = useHistory();
+
   const checkedLoggedIn = () => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -38,7 +40,7 @@ function App() {
   const navStyle = {
     width: "100vw",
     position: "absolute",
-    bottom: "20vh",
+    bottom: "16vh",
     margin: "auto",
   };
   const ulStyle = {
@@ -65,7 +67,13 @@ function App() {
                   </Link>
                 </li>
               )}
-
+          {!isLoggedIn && (
+            <li>
+              <Link to="/forgot-password">
+                Forgot your password? Click here to <span>reset it</span>.
+              </Link>
+            </li>
+          )}
           {isLoggedIn && (
             <li>
               <button onClick={logout}>Logout</button>
@@ -82,6 +90,11 @@ function App() {
         {!isLoggedIn && (
           <Route path="/sign-up">
             <Signup />
+          </Route>
+        )}
+        {!isLoggedIn && (
+          <Route path="/forgot-password">
+            <ForgotPassword />
           </Route>
         )}
         {isLoggedIn && (

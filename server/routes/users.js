@@ -181,11 +181,9 @@ router.post("/forgot-password", async (req, res, next) => {
     if (err) {
       res
         .status(403)
-        .json({ response: "Problems creating the account, ", err });
-      console.log("Email error", err);
+        .json({ response: "Problems reseting your password, ", err });
       return;
     } else {
-      // return res.status(200).send({ response: newUser.username });
       res.json({ response: `reset password for ${email}` });
     }
   });

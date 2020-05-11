@@ -18,9 +18,6 @@ export default function Login() {
       const { data } = await login({ username, password });
       setAuthToken(data.token);
       localStorage.setItem("token", data.token);
-      console.log("====================================");
-      console.log("login data", data);
-      console.log("====================================");
       history.push("/passwords");
       window.location.reload();
     } catch (e) {
