@@ -153,7 +153,7 @@ router.post("/register", (req, res) => {
 });
 // #############################################################
 // user/delete
-router.delete("/delete", isAuthenticated, async (req, res, next) => {
+router.delete("/delete", isAuthenticated, async (req, res) => {
   await Token.query().where({ user_id: req.userId }).del();
   await Password.query().where({ user_id: req.userId }).del();
   const deleteUser = await User.query().where({ id: req.userId }).del();
@@ -161,7 +161,7 @@ router.delete("/delete", isAuthenticated, async (req, res, next) => {
 });
 // #############################################################
 // user/forgot-password
-router.post("/forgot-password", async (req, res, next) => {
+router.post("/forgot-password", async (req, res) => {
   const { email } = req.body;
   const token = await jwt.sign({ email }, "mysecretkey");
   await User.query()
@@ -191,7 +191,7 @@ router.post("/forgot-password", async (req, res, next) => {
 });
 // #############################################################
 // user/update-password
-router.put("/update-password/:token", async (req, res, next) => {
+router.put("/update-password/:token", async (req, res) => {
   const { newPassword } = req.body;
   const token = req.params.token;
   if (token) {
@@ -208,7 +208,7 @@ router.put("/update-password/:token", async (req, res, next) => {
 });
 // #############################################################
 // isAuthentificated
-router.get("/authentication", isAuthenticated, (req, res, next) => {
+router.get("/authentication", isAuthenticated, (req, res) => {
   res.json({ response: "user is authenticated" });
 });
 module.exports = router;

@@ -4,7 +4,7 @@ const { isAuthenticated } = require("../middleware/auth");
 
 // #######################################################
 // create
-router.post("/create", isAuthenticated, async (req, res, next) => {
+router.post("/create", isAuthenticated, async (req, res) => {
   const { account, username, password } = req.body;
   const newPassword = await Password.query().insert({
     account,
@@ -16,7 +16,7 @@ router.post("/create", isAuthenticated, async (req, res, next) => {
 });
 // #######################################################
 // read // get passwords for a specific user
-router.get("/", isAuthenticated, async (req, res, next) => {
+router.get("/", isAuthenticated, async (req, res) => {
   const passwords = await Password.query().select().where({
     user_id: req.userId,
   });
@@ -24,7 +24,7 @@ router.get("/", isAuthenticated, async (req, res, next) => {
 });
 // #######################################################
 // update
-router.put("/update/:id", async (req, res, next) => {
+router.put("/update/:id", async (req, res) => {
   const passId = req.params.id;
   const { username, password } = req.body;
   const updateUsername = await Password.query()
@@ -45,7 +45,7 @@ router.put("/update/:id", async (req, res, next) => {
 });
 // #######################################################
 // delete
-router.delete("/delete/:id", isAuthenticated, async (req, res, next) => {
+router.delete("/delete/:id", isAuthenticated, async (req, res) => {
   const passId = req.params.id;
   const deletePassword = await Password.query()
     .where({
