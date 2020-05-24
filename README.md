@@ -1,7 +1,7 @@
 # react-node-password-manager
-Password manager built with React, NodeJS, Express, JWT and MySQL.
+Password manager built with ReactJS, NodeJS, ExpressJS, ObjectionJS, KnexJS, JWT and MySQL.
 
-The project contains the client and the server side.
+The project contains the client and the server side together with migrations to populate the database.
 ## Server
 The server side represents the back-end which is built with Node.js and Express.
 
