@@ -11,7 +11,7 @@ Steps to follow to setup the project:
 
 1. Log in into your local MySQL DB, using a CLI or any GUI.
 2. Create a database for the current project. 
-3. Navigate to the /server/config/ and create a file "db_credentials.js" by copying the template and replace the database name, the username and password with your credentials.
+3. Navigate to the /server/config/ and create a file "dbcredentials.js" by copying the template and replace the database name, the username and password with your credentials.
 4. Open a CLI, navigate to the folder /server/ and run ```npm i```
 5. After all the packages are installed, while still in the server folder, run the following commands, in this order:
     ```npm run migrate:rollback``` 
